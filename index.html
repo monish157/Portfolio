@@ -1,1 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Developer Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0d1117; /* GitHub Dark Theme */
+            color: #c9d1d9;
+        }
+    </style>
+    <!-- Load React, ReactDOM, and Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
 
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Mock Data - Updated with Monishraj T's Resume Details
+        const profile = {
+            name: "Monishraj T",
+            title: "Aspiring Data Analyst | Full Stack Developer",
+            // REVERTED: Concise placeholder bio for the Hero section
+            bio: "Passionate developer focused on AI and data solutions. Scroll down to see my work!", 
+            // Removed specific image URL
+            skills: [
+                { name: "Python", level: 90, icon: "🐍" },
+                { name: "SQL (MySQL)", level: 85, icon: "💾" },
+                { name: "React / JavaScript", level: 80, icon: "⚛️" },
+                { name: "Node.js (Backend)", level: 70, icon: "🟢" },
+                { name: "UI/UX Design (Figma)", level: 75, icon: "🎨" },
+                { name: "Power BI / Data Viz", level: 65, icon: "📊" },
+            ],
+            projects: [
+                { id: 1, title: "PestNet: AI Identification App", description: "Developed an AI-based application for pest identification and forecasting using Python and Flask. Focus on model integration and deployment.", tags: ["Python", "Flask", "AI/ML"] },
+                { id: 2, title: "Customer Feedback Management System", description: "A full-stack web application designed to collect and analyze customer feedback efficiently using Node.js and MySQL.", tags: ["Node.js", "MySQL", "Web App"] },
+                { id: 3, title: "Inventory Management System", description: "A Java-based desktop application for efficiently managing product stock, purchases, and sales efficiently using a MySQL database.", tags: ["Java", "MySQL", "Desktop App"] },
+            ]
+        };
+
+        // --- Components ---
+
+        const Header = () => (
+            <header id="header" className="sticky top-0 z-50 bg-[#161b22] border-b border-[#30363d] shadow-lg">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                    {/* Header is now simplified and centered */}
+                    <h1 className="text-2xl font-bold text-[#58a6ff]">MONISHRAJ.T</h1>
+                    {/* Kept navigation links for section jumping */}
+                    <nav className="hidden md:flex space-x-8">
+                        {['About', 'Skills', 'Projects', 'Contact'].map(item => (
+                            <a key={item} href={`#${item.toLowerCase()}`} className="text-[#c9d1d9] hover:text-[#58a6ff] transition duration-200 font-medium">
+                                {item} {/* <-- FIX: Changed from 'item' to {item} */}
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+            </header>
+        );
+
+        const Section = ({ id, title, children }) => (
+            <section id={id} className="py-16 md:py-24 border-b border-[#30363d] scroll-mt-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 className="text-4xl font-extrabold mb-12 text-white border-b-2 border-[#58a6ff] inline-block pb-1">
+                        {title}
+                    </h2>
+                    {children}
+                </div>
+            </section>
+        );
+        
+        // Reinstated Hero component (The "Front Page" content)
+        const Hero = () => (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
+                <div className="flex justify-center mb-6">
+                    {/* Profile Icon Placeholder (Previous Stage) */}
+                    <div className="w-40 h-40 bg-[#161b22] rounded-full flex items-center justify-center border-4 border-[#58a6ff] overflow-hidden shadow-xl">
+                        <span className="text-7xl text-white">👤</span>
+                        {/* Placeholder for Profile Image */}
+                        <img src={`https://placehold.co/160x160/161b22/c9d1d9?text=M`} alt="Profile" className="hidden" />
+                    </div>
+                </div>
+                <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-3 leading-tight">
+                    {profile.name}
+                </h1>
+                <p className="text-2xl font-light text-[#58a6ff] mb-8">
+                    {profile.title}
+                </p>
+                <p className="max-w-3xl mx-auto text-xl leading-relaxed text-[#8b949e]">
+                    {profile.bio}
+                </p>
+                <div className="mt-8 flex justify-center space-x-4">
+                    <a href="#contact" className="px-6 py-3 bg-[#58a6ff] text-gray-900 font-semibold rounded-lg shadow-md hover:bg-[#79b8ff] transition duration-300 transform hover:scale-[1.02]">
+                        Get In Touch
+                    </a>
+                    <a href="#" className="px-6 py-3 border border-[#30363d] text-[#58a6ff] font-semibold rounded-lg hover:bg-[#1f242c] transition duration-300">
+                        View Resume (Mock)
+                    </a>
+                </div>
+            </div>
+        );
+
+        // Refactored About component to contain secondary details
+        const About = () => (
+            <div className="lg:w-3/4 mx-auto text-center">
+                <p className="text-lg leading-relaxed text-[#8b949e] italic">
+                    Software Engineer in full-stack web development. Skilled in JavaScript,
+                    Python, and cloud technologies, with a track record of delivering scalable
+                    applications. Passionate about AI-driven and data-centric solutions, with
+                    strong analytical skills and a growing focus on data visualization, insights,
+                    and predictive analytics. Eager to contribute to innovative tech and data
+                    projects.
+                </p>
+                {/* Removed: The Get In Touch button has been moved back to the Hero component */}
+            </div>
+        );
+
+        const SkillBar = ({ name, level, icon }) => (
+            <div className="mb-4">
+                <div className="flex justify-between items-center mb-1">
+                    <span className="text-lg font-medium text-[#c9d1d9]">{icon} {name}</span>
+                    <span className="text-sm font-semibold text-[#8b949e]">{level}%</span>
+                </div>
+                <div className="w-full bg-[#30363d] rounded-full h-2.5">
+                    <div
+                        className="h-2.5 rounded-full bg-[#58a6ff] transition-all duration-1000 ease-out"
+                        style={{ width: `${level}%` }}
+                    ></div>
+                </div>
+            </div>
+        );
+
+        const Skills = () => (
+            <div className="grid md:grid-cols-2 gap-x-16 gap-y-8">
+                {profile.skills.map((skill, index) => (
+                    <SkillBar key={index} {...skill} />
+                ))}
+            </div>
+        );
+
+        const ProjectCard = ({ title, description, tags }) => (
+            <div className="bg-[#161b22] p-6 rounded-xl border border-[#30363d] shadow-2xl hover:border-[#58a6ff] transition duration-300 transform hover:-translate-y-1">
+                <h3 className="text-2xl font-semibold mb-3 text-white">{title}</h3>
+                <p className="text-[#8b949e] mb-4">{description}</p>
+                <div className="flex flex-wrap gap-2">
+                    {tags.map(tag => (
+                        <span key={tag} className="text-xs font-mono text-[#58a6ff] bg-[#1f242c] px-3 py-1 rounded-full border border-[#58a6ff]/30">
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+                <a href="#" className="mt-4 text-[#58a6ff] inline-block font-medium hover:underline">
+                    View Project (Mock) &rarr;
+                </a>
+            </div>
+        );
+
+        const Projects = () => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {profile.projects.map(project => (
+                    <ProjectCard key={project.id} {...project} />
+                ))}
+            </div>
+        );
+
+        const Contact = () => {
+            const [isSent, setIsSent] = useState(false);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setIsSent(true);
+                // In a real app, you would handle form submission here
+                setTimeout(() => setIsSent(false), 5000);
+            };
+
+            return (
+                <div className="max-w-2xl mx-auto">
+                    <p className="text-lg text-center text-[#8b949e] mb-8">
+                        I'm currently open to new opportunities and collaboration. Feel free to reach out via the form below or connect on LinkedIn.
+                        <br/>
+                        Mobile: +91 8925339047 | Email: rajmonish5252@gmail.com
+                    </p>
+                    {isSent ? (
+                        <div className="bg-green-900/50 border border-green-600 p-4 rounded-lg text-center text-green-300">
+                            Message Sent! Thank thank you for reaching out, I'll be in touch soon.
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="space-y-6 bg-[#161b22] p-8 rounded-xl border border-[#30363d]">
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium text-[#c9d1d9] mb-1">Name</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    required
+                                    className="w-full px-4 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-white focus:ring-[#58a6ff] focus:border-[#58a6ff] transition duration-200"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-[#c9d1d9] mb-1">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    required
+                                    className="w-full px-4 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-white focus:ring-[#58a6ff] focus:border-[#58a6ff] transition duration-200"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="block text-sm font-medium text-[#c9d1d9] mb-1">Message</label>
+                                <textarea
+                                    id="message"
+                                    rows="4"
+                                    required
+                                    className="w-full px-4 py-2 bg-[#0d1117] border border-[#30363d] rounded-lg text-white focus:ring-[#58a6ff] focus:border-[#58a6ff] transition duration-200"
+                                ></textarea>
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full px-4 py-2 bg-[#58a6ff] text-gray-900 font-semibold rounded-lg shadow-md hover:bg-[#79b8ff] transition duration-300"
+                            >
+                                Send Message
+                            </button>
+                        </form>
+                    )}
+                </div>
+            );
+        };
+
+        const Footer = () => (
+            <footer className="py-8 border-t border-[#30363d] mt-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-[#8b949e]">
+                    &copy; {new Date().getFullYear()} Monishraj T. Built with React and Tailwind CSS.
+                </div>
+            </footer>
+        );
+
+        const App = () => (
+            <div className="min-h-screen">
+                <Header />
+                <main className="pt-0"> {/* Adjusted padding */}
+                    <Hero /> {/* Restored the Hero component */}
+                    <Section id="about" title="About Me">
+                        <About />
+                    </Section>
+                    <Section id="skills" title="Technical Skills">
+                        <Skills />
+                    </Section>
+                    <Section id="projects" title="Portfolio Projects">
+                        <Projects />
+                    </Section>
+                    <Section id="contact" title="Get in Touch">
+                        <Contact />
+                    </Section>
+                </main>
+                <Footer />
+            </div>
+        );
+
+        // Render the App component to the root div
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
